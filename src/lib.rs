@@ -1,4 +1,4 @@
-pub fn quick_sort<T: Ord>(arr: &mut [T]) {
+pub fn quick_sort<T: PartialOrd>(arr: &mut [T]) {
     if arr.len() <= 1 {
         return;
     }
@@ -8,7 +8,7 @@ pub fn quick_sort<T: Ord>(arr: &mut [T]) {
     quick_sort(&mut arr[pivot + 1..]);
 }
 
-fn partition<T: Ord>(arr: &mut [T]) -> usize {
+fn partition<T: PartialOrd>(arr: &mut [T]) -> usize {
     let pivot_index = arr.len() - 1;
     let mut i = 0;
     for j in 0..pivot_index {
@@ -21,7 +21,7 @@ fn partition<T: Ord>(arr: &mut [T]) -> usize {
     i
 }
 
-pub fn selection_sort<T: Ord>(arr: &mut [T]) {
+pub fn selection_sort<T: PartialOrd>(arr: &mut [T]) {
     for i in 0..arr.len() {
         let mut min_index = i;
         for j in (i + 1)..arr.len() {
@@ -35,7 +35,7 @@ pub fn selection_sort<T: Ord>(arr: &mut [T]) {
     }
 }
 
-pub fn insertion_sort<T: Ord>(arr: &mut [T]) {
+pub fn insertion_sort<T: PartialOrd>(arr: &mut [T]) {
     for i in 1..arr.len() {
         let mut j = i;
         while j > 0 && arr[j] < arr[j - 1] {
@@ -44,40 +44,39 @@ pub fn insertion_sort<T: Ord>(arr: &mut [T]) {
         }
     }
 }
-pub fn merge_sort<T: Ord + Clone + Copy>(arr: Vec<T>) -> Vec<T> {
+pub fn merge_sort<T: PartialOrd + Clone>(arr: &mut [T]) {
     if arr.len() <= 1 {
-        return arr;
+        return;
     }
 
     let mid = arr.len() / 2;
-    let (left, right) = arr.split_at(mid);
+    let (left, right) = arr.split_at_mut(mid);
 
-    // Recursively sort the left and right halves
-    let sorted_left = merge_sort(left.to_vec());
-    let sorted_right = merge_sort(right.to_vec());
+    merge_sort(left);
+    merge_sort(right);
 
-    // Merge the sorted halves
-    merge(sorted_left, sorted_right)
-}
+    let mut merged = Vec::new(); // Changed to Vec::new()
+    let (mut left_idx, mut right_idx) = (0, 0);
 
-fn merge<T: Ord + Copy>(mut left: Vec<T>, mut right: Vec<T>) -> Vec<T> {
-    let mut result = Vec::with_capacity(left.len() + right.len());
-    let mut left_index = 0;
-    let mut right_index = 0;
-
-    while left_index < left.len() && right_index < right.len() {
-        if left[left_index] <= right[right_index] {
-            result.push(left[left_index]);
-            left_index += 1;
+    while left_idx < left.len() && right_idx < right.len() {
+        if left[left_idx] <= right[right_idx] {
+            merged.push(left[left_idx].clone());
+            left_idx += 1;
         } else {
-            result.push(right[right_index]);
-            right_index += 1;
+            merged.push(right[right_idx].clone());
+            right_idx += 1;
         }
     }
 
-    // Push remaining elements from left and right
-    result.extend_from_slice(&left[left_index..]);
-    result.extend_from_slice(&right[right_index..]);
+    while left_idx < left.len() {
+        merged.push(left[left_idx].clone());
+        left_idx += 1;
+    }
 
-    result
+    while right_idx < right.len() {
+        merged.push(right[right_idx].clone());
+        right_idx += 1;
+    }
+
+    arr.clone_from_slice(&merged);
 }
