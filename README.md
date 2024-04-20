@@ -119,6 +119,7 @@ cargo run
 ```
 
 This is after build and run:
+![image](https://github.com/zhosyaaa/sorting_library_rust/assets/123876061/e5782433-a534-4b18-9d01-025f9842c0c7)
 
 
 ## License
