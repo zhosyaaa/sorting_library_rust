@@ -3,16 +3,17 @@
 
 This Rust library supports sorting algorithms such as rapid sort, selection sort, insertion sort, and merge sort.
 
+
 ## Installation
 
 1. Create a new Cargo project by running the following command in your terminal:
    ```bash
-   cargo init <folder name>
+   cargo init <name>
    ```
 
 2. Navigate into the newly created `sort` directory:
    ```bash
-   cd <folder name>
+   cd <name>
    ```
 
 3. Open the `Cargo.toml` file in a text editor and add the following dependencies for your sorting library:
@@ -34,6 +35,10 @@ Save the `Cargo.toml` file and close the text editor.
     println!("Selection Sorted: {:?}", floats);
 ```
 main.rs
+
+This is after build and run:
+![image](https://github.com/zhosyaaa/sorting_library_rust/assets/123876061/e5782433-a534-4b18-9d01-025f9842c0c7)
+
 Using all functions looks like this:
 ```main.rs
 fn main() {
@@ -118,8 +123,6 @@ cargo build
 cargo run
 ```
 
-This is after build and run:
-![image](https://github.com/zhosyaaa/sorting_library_rust/assets/123876061/e5782433-a534-4b18-9d01-025f9842c0c7)
 
 
 ## License
