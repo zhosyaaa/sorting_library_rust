@@ -1,10 +1,17 @@
+// Import the standard library function `min` for later use
 use std::cmp::min;
 
+// Implementation of insertion sort algorithm
 pub fn insertion_sort<T: PartialOrd>(input: &mut [T]) {
-    if input.len() < 2 {return;}
+    // If the input slice has less than 2 elements, it's already sorted
+    if input.len() < 2 {
+        return;
+    }
     
+    // Iterate over each element starting from the second one
     for i in 1..input.len() {
         let mut j = i;
+        // Move the element at index `j` to its correct position
         while j > 0 && input[j - 1] > input[j] {
             input.swap(j - 1, j);
             j -= 1;
@@ -12,14 +19,21 @@ pub fn insertion_sort<T: PartialOrd>(input: &mut [T]) {
     }
 }
 
+// Implementation of merge sort algorithm
 pub fn merge_sort<T: PartialOrd + Copy>(input: &mut [T]) {
-    if input.len() < 2 {return;}
+    // If the input slice has less than 2 elements, it's already sorted
+    if input.len() < 2 {
+        return;
+    }
     
+    // Divide the input slice into two halves
     let len = input.len();
     let mid = len / 2;
+    // Recursively sort each half
     merge_sort(&mut input[..mid]);
     merge_sort(&mut input[mid..]);
 
+    // Merge the sorted halves back together
     let mut tmp = Vec::with_capacity(len);
     let mut i = 0;
     let mut j = mid;
@@ -42,27 +56,7 @@ pub fn merge_sort<T: PartialOrd + Copy>(input: &mut [T]) {
     input.copy_from_slice(&tmp[..]);
 }
 
-pub fn merge_bottom_up_sort<T: PartialOrd + Copy>(input: &mut [T]) {
-    let mut width = 1;
-
-    let mut tmp = input.to_vec();
-    let len = input.len();
-
-    while width < len {
-        let mut i = 0;
-        while i < len {
-            let start = min(i + 2 * width, len);
-            let mid = min(i + width, len);
-
-            merge(&input[i..mid], &input[mid..start], &mut tmp[i..start]);
-            input[i..start].copy_from_slice(&tmp[i..start]);
-
-            i += 2 * width;
-        }
-        width *= 2;
-    }
-}
-
+// Helper function for merging two sorted slices
 fn merge<T: PartialOrd + Copy>(in1: &[T], in2: &[T], tmp: &mut [T]) {
     let mut left = 0;
     let mut right = 0;
@@ -88,7 +82,7 @@ fn merge<T: PartialOrd + Copy>(in1: &[T], in2: &[T], tmp: &mut [T]) {
     }
 }
 
-
+// Implementation of quick sort algorithm using the Lomuto partition scheme
 pub fn quick_sort<T: PartialOrd>(input: &mut [T]) {
     if input.len() > 1 {
         let pivot = lomuto_partition(input);
@@ -97,7 +91,7 @@ pub fn quick_sort<T: PartialOrd>(input: &mut [T]) {
     }
 }
 
-/// Partitions a slice according to the Lomuto partition scheme.
+// Implementation of the Lomuto partition scheme for quick sort
 fn lomuto_partition<T: PartialOrd>(input: &mut [T]) -> usize {
     let pivot = input.len() - 1;
     let mut swap = 0;
@@ -116,14 +110,19 @@ fn lomuto_partition<T: PartialOrd>(input: &mut [T]) -> usize {
     swap
 }
 
+// Implementation of dual-pivot quick sort algorithm
 pub fn quick_dual_sort<T: PartialOrd + Copy>(input: &mut [T]) {
-    if input.len() < 2 {return;}
+    if input.len() < 2 {
+        return;
+    }
     dual_pivot(input, 0, input.len() - 1);
 }
 
-fn dual_pivot<T: PartialOrd + Copy>(input: &mut [T], start: usize,
-end: usize) {
-    if start >= end {return;}
+// Helper function for dual-pivot quick sort
+fn dual_pivot<T: PartialOrd + Copy>(input: &mut [T], start: usize, end: usize) {
+    if start >= end {
+        return;
+    }
     if input[start] > input[end] {
         input.swap(start, end);
     }
@@ -163,9 +162,11 @@ end: usize) {
     dual_pivot(input, endm, end);
 }
 
-
+// Implementation of selection sort algorithm
 pub fn selection_sort<T: PartialOrd>(input: &mut [T]) {
-    if input.len() < 2 {return;}
+    if input.len() < 2 {
+        return;
+    }
 
     for i in 0..input.len() {
         let swap_val = {
@@ -184,34 +185,5 @@ pub fn selection_sort<T: PartialOrd>(input: &mut [T]) {
         if i != swap_val {
             input.swap(i, swap_val);
         }
-    }
-}
-
-pub fn selection_double_sort<T: PartialOrd>(input: &mut [T]) {
-    if input.len() < 2 {return;}
-
-    let mut left = 0;
-    let mut right = input.len() - 1;
-    let mut min = left;
-    let mut max = left;
-
-    while left <= right {
-        for i in left..=right {
-            if input[i] > input[max] {
-                max = i;
-            }
-            if input[i] < input[min] {
-                min = i;
-            }
-        }
-        if max == left {max = min;}
-        input.swap(left, min);
-        input.swap(right, max);
-
-        left += 1;
-        right -= 1;
-
-        min = left;
-        max = right;
     }
 }
