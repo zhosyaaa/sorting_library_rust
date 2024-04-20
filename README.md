@@ -36,7 +36,7 @@ Save the `Cargo.toml` file and close the text editor.
 ```
 main.rs
 
-This is after build and run:
+## Usage example:
 ![image](https://github.com/zhosyaaa/sorting_library_rust/assets/123876061/e5782433-a534-4b18-9d01-025f9842c0c7)
 
 Using all functions looks like this:
