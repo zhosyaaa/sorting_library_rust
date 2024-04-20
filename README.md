@@ -123,5 +123,6 @@ This is after build and run:
 
 
 ## License
+MIT License
 
-
+Copyright (c) 2024 Zhansaya Musabekova
